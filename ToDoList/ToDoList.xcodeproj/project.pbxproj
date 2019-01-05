@@ -13,6 +13,7 @@
 		01132F6621E05361003B5589 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01132F6521E05361003B5589 /* Assets.xcassets */; };
 		01132F6921E05361003B5589 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01132F6721E05361003B5589 /* LaunchScreen.storyboard */; };
 		01132F7121E05A29003B5589 /* TaskItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01132F7021E05A29003B5589 /* TaskItem.swift */; };
+		01132F7321E06CF5003B5589 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01132F7221E06CF5003B5589 /* AddTaskViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		01132F6821E05361003B5589 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		01132F6A21E05361003B5589 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		01132F7021E05A29003B5589 /* TaskItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItem.swift; sourceTree = "<group>"; };
+		01132F7221E06CF5003B5589 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				01132F6021E0535E003B5589 /* ToDoListViewController.swift */,
 				01132F7021E05A29003B5589 /* TaskItem.swift */,
 				01132F6221E0535E003B5589 /* Main.storyboard */,
+				01132F7221E06CF5003B5589 /* AddTaskViewController.swift */,
 				01132F6521E05361003B5589 /* Assets.xcassets */,
 				01132F6721E05361003B5589 /* LaunchScreen.storyboard */,
 				01132F6A21E05361003B5589 /* Info.plist */,
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01132F6121E0535E003B5589 /* ToDoListViewController.swift in Sources */,
+				01132F7321E06CF5003B5589 /* AddTaskViewController.swift in Sources */,
 				01132F7121E05A29003B5589 /* TaskItem.swift in Sources */,
 				01132F5F21E0535E003B5589 /* AppDelegate.swift in Sources */,
 			);

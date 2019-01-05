@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--To Do List View Controller-->
+        <!--To Do List-->
         <scene sceneID="taq-uh-SXg">
             <objects>
                 <tableViewController id="oFh-uj-gTC" customClass="ToDoListViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
@@ -41,11 +41,59 @@
                             <outlet property="delegate" destination="oFh-uj-gTC" id="PlV-ZU-iII"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="OvM-ox-Imy"/>
+                    <navigationItem key="navigationItem" title="To Do List" id="OvM-ox-Imy">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="fXU-mj-gQF">
+                            <connections>
+                                <segue destination="48S-He-ZNP" kind="show" id="OXW-5L-XQz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HJW-V2-x5Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1676.8115942028987" y="171.42857142857142"/>
+        </scene>
+        <!--Add a Task-->
+        <scene sceneID="as4-ua-VLZ">
+            <objects>
+                <tableViewController id="48S-He-ZNP" customClass="AddTaskViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bVH-DO-hw8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="eCe-Z1-0Oz">
+                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eCe-Z1-0Oz" id="tOE-CX-kdj">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="48S-He-ZNP" id="PG0-7g-Hx3"/>
+                            <outlet property="delegate" destination="48S-He-ZNP" id="RP8-rK-rUG"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Add a Task" id="UbY-7l-gWO">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="hCZ-Xt-PHU">
+                            <connections>
+                                <action selector="cancel" destination="48S-He-ZNP" id="qTQ-No-17C"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="jc1-4i-Hsy">
+                            <connections>
+                                <action selector="done" destination="48S-He-ZNP" id="QqO-6s-GFf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wWe-XS-gR5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2532" y="171"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IaY-CO-HOC">

@@ -36,14 +36,14 @@ class ToDoListViewController: UITableViewController {
         tasks.append(row3task)
         
         let row4task = TaskItem()
-        row4task.text = ""
+        row4task.text = "apply to stuff"
         row4task.checked = false
         tasks.append(row4task)
         
-        let row0task = TaskItem()
-        row0task.text = "walk the dog"
-        row0task.checked = false
-        tasks.append(row0task)
+        let row5task = TaskItem()
+        row5task.text = "take a nap"
+        row5task.checked = false
+        tasks.append(row5task)
         
         super.init(coder: aDecoder)
     }
