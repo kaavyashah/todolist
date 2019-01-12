@@ -8,20 +8,65 @@
 
 import UIKit
 
-class AddTaskViewController: UITableViewController {
+protocol AddTaskViewControllerDelegate: class {
+    func addTaskViewControllerDidCancel(_ controller: AddTaskViewController)
+    func addTaskViewController(_ controller: AddTaskViewController, didFinishAdding task: TaskItem)
+    func addTaskViewController(_ controller: AddTaskViewController, didFinishEditing task: TaskItem)
+}
 
+class AddTaskViewController: UITableViewController, UITextFieldDelegate {
+    @IBOutlet weak var taskField: UITextField!
+    @IBOutlet weak var doneBarButton: UIBarButtonItem!
+    weak var delegate: AddTaskViewControllerDelegate?
+    var taskToEdit: TaskItem?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        if let item = taskToEdit {
+            title = "Edit Task"
+            taskField.text = item.text
+            doneBarButton.isEnabled = true
+        }
     }
     
     @IBAction func cancel() {
-        navigationController?.popViewController(animated: true)
+        delegate?.addTaskViewControllerDidCancel(self)
     }
     
     @IBAction func done() {
-        navigationController?.popViewController(animated: true)
+        if let taskToEdit = taskToEdit {
+            taskToEdit.text = taskField.text!
+            delegate?.addTaskViewController(self, didFinishEditing: taskToEdit)
+        } else {
+        let task = TaskItem()
+        task.text = taskField.text!
+        task.checked = false
+        
+        delegate?.addTaskViewController(self, didFinishAdding: task)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return nil
+    }
+    
+    //opens keyboard immediately when app is run
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        taskField.becomeFirstResponder()
+    }
+    
+    //gets rid of the Done button if you type and then erase
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let oldText = textField.text!
+        let stringRange = Range(range, in:oldText)!
+        let newText = oldText.replacingCharacters(in: stringRange, with: string)
+        
+        doneBarButton.isEnabled = !newText.isEmpty
+        
+        return true
     }
 
     /*

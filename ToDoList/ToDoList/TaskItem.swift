@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TaskItem {
+class TaskItem: NSObject, Codable {
     
     //what the tas says to do
     var text = ""
