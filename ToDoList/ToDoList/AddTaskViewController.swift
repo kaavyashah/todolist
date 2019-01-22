@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 protocol AddTaskViewControllerDelegate: class {
     func addTaskViewControllerDidCancel(_ controller: AddTaskViewController)
@@ -17,6 +18,12 @@ protocol AddTaskViewControllerDelegate: class {
 class AddTaskViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var taskField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
+    @IBOutlet weak var reminderSwitch: UISwitch!
+    @IBOutlet weak var dueDateLabel: UILabel!
+    @IBOutlet var datePickerCell: UITableViewCell!
+    @IBOutlet weak var datePicker: UIDatePicker!
+    var dueDate = Date()
+    var dateChoiceShown = false
     weak var delegate: AddTaskViewControllerDelegate?
     var taskToEdit: TaskItem?
     
@@ -28,7 +35,11 @@ class AddTaskViewController: UITableViewController, UITextFieldDelegate {
             title = "Edit Task"
             taskField.text = item.text
             doneBarButton.isEnabled = true
+            reminderSwitch.isOn = item.reminder
+            dueDate = item.dueDate
         }
+        
+        updateDueDateLabel()
     }
     
     @IBAction func cancel() {
@@ -38,18 +49,33 @@ class AddTaskViewController: UITableViewController, UITextFieldDelegate {
     @IBAction func done() {
         if let taskToEdit = taskToEdit {
             taskToEdit.text = taskField.text!
+            
+            taskToEdit.reminder = reminderSwitch.isOn
+            taskToEdit.dueDate = dueDate
+            
+            taskToEdit.scheduleNotification()
             delegate?.addTaskViewController(self, didFinishEditing: taskToEdit)
         } else {
         let task = TaskItem()
         task.text = taskField.text!
         task.checked = false
+            
+        task.reminder = reminderSwitch.isOn
+        task.dueDate = dueDate
         
+        task.scheduleNotification()
         delegate?.addTaskViewController(self, didFinishAdding: task)
+            
         }
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        return nil
+        //add if to work kwith keyboard, if keyboard isn't there just return nil
+        if indexPath.section == 1 && indexPath.row == 1 {
+            return indexPath
+        } else {
+            return nil
+        }
     }
     
     //opens keyboard immediately when app is run
@@ -68,15 +94,80 @@ class AddTaskViewController: UITableViewController, UITextFieldDelegate {
         
         return true
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func updateDueDateLabel() {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        dueDateLabel.text = formatter.string(from: dueDate)
     }
-    */
+
+    func showDateChoice() {
+        dateChoiceShown = true
+        
+        let indexPathDatePicker = IndexPath(row: 2, section: 1)
+        tableView.insertRows(at: [indexPathDatePicker], with: .fade)
+        
+        datePicker.setDate(dueDate, animated: false)
+    }
+    
+    //add to show keyboard
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 1 && indexPath.row == 2 {
+            return datePickerCell
+        } else {
+            return super.tableView(tableView, cellForRowAt: indexPath)
+        }
+        
+    }
+    
+    //also for keyboard
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 1 && dateChoiceShown {
+            return 3
+        } else {
+            return super.tableView(tableView, numberOfRowsInSection: section)
+        }
+    }
+    
+    //additionally for keyboard
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 1 && indexPath.row == 2 {
+            return 217
+        } else {
+            return super.tableView(tableView, heightForRowAt: indexPath)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 && indexPath.row == 1 {
+            showDateChoice()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int {
+        var newIndexPath = indexPath
+        if indexPath.section == 1 && indexPath.row == 2 {
+            newIndexPath = IndexPath(row: 0, section: indexPath.section)
+        }
+        return super.tableView(tableView, indentationLevelForRowAt: newIndexPath)
+    }
+    
+    @IBAction func changeDate(_ datePicker: UIDatePicker) {
+        dueDate = datePicker.date
+        updateDueDateLabel()
+    }
+    
+    @IBAction func shouldRemainToggled(_ switchControl: UISwitch) {
+        taskField.resignFirstResponder()
+        
+        if switchControl.isOn {
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .sound]) {
+                granted, error in
+            }
+            
+        }
+    }
 
 }

@@ -75,7 +75,8 @@ class ToDoListViewController: UITableViewController, AddTaskViewControllerDelega
 //        print("Documents folder is \(documentsDirectory())")
 //        print("Data file path is \(dataFilePath())")
 //    }
-
+//
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -144,7 +145,8 @@ class ToDoListViewController: UITableViewController, AddTaskViewControllerDelega
     //makes the text for the cell visible
     func configureText(for cell: UITableViewCell, with task: TaskItem) {
         let label = cell.viewWithTag(11) as! UILabel
-        label.text = task.text
+//        label.text = task.text
+        label.text = "\(task.taskID): \(task.text)"
     }
     
     //either shows or does not show the checkmark
